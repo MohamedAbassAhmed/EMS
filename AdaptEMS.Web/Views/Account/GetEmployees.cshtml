@@ -1,0 +1,84 @@
+﻿@model IEnumerable<EmployeesListModel>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-file-text-o"></i> Employees</h1>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="title">
+
+                </h3>
+            </div>
+
+            <div class="tile-body">
+                <p>
+                    <a asp-action="CreateEmployee">Add</a>
+                </p>
+                <table class="table dataTable">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.UserName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Position)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Phone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Salary)
+                            </th>
+                            <th>Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Position)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Salary)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Update", "UpdateEmployee", new { userId = item.ApplicationUserId }) |
+                                    @if (item.IsActive )
+                                    {
+                                        @Html.ActionLink("Delete", "DeleteEmployee", new { userId = item.ApplicationUserId })
+                                    }
+                                    
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

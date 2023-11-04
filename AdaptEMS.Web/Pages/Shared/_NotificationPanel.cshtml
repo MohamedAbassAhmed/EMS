@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/sweetalert/sweetalert.min.js"></script>
+@{
+    var callingString = "";
+    if (TempData["notification"] != null)
+    {
+        callingString = TempData["notification"].ToString();
+        TagBuilder script = new TagBuilder("script");
+        script.InnerHtml.Append("$(document).ready(function () {" + callingString + "});");
+        //script.ToString();
+        var callingScript = "<script>$(document).ready(function () {" + callingString + "});</script>";
+
+        @Html.Raw(callingScript);
+        TempData["notification"] = null;
+    }
+
+
+
+}

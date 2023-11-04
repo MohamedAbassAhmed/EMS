@@ -1,0 +1,81 @@
+﻿@model IEnumerable<LeaveOrderListModel>
+@{
+    ViewData["Title"] = "LeaveOrders";
+}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-file-text-o"></i> Leave Requests</h1>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-title-w-btn">
+                <h3 class="title">
+                </h3>
+            </div>
+
+            <div class="tile-body">
+                
+                <table class="table dataTable">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.EmployeeUserName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EmployeeFullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RequestedLeaveDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Comment)
+                            </th>
+                            <th>Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeUserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeFullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RequestedLeaveDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Comment)
+                                </td>
+                                <td>
+                                    @if (item.Status==Consts.NewLeaveOrder)
+                                    {
+                                        @Html.ActionLink("Approve", "Approve", new { orderId = item.Id })
+                                        @Html.ActionLink("Reject", "Reject", new { orderId = item.Id })
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
