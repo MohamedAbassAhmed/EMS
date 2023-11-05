@@ -46,7 +46,7 @@ any code that implements the business should be inside CoreService class or vali
 * Do small enhancements on the UI:
   - Make the Login and register pages vertically center.
   - Find a way to make the username on the top side menu seems nice.
-* Add Comments to eazily create clear documentation.
+* Add Comments to eazily create a clear documentation.
 * Add Test Project to put Automated Tests inside it.
 * Create new Branches to Add Angular and Blazor Clients.
 * ((Any advices))
