@@ -65,7 +65,7 @@
                                 <td>
                                     @if (item.Status==Consts.NewLeaveOrder)
                                     {
-                                        @Html.ActionLink("Approve", "Approve", new { orderId = item.Id })
+                                        @Html.ActionLink("Approve", "Approve", new { orderId = item.Id }) <span>|</span>
                                         @Html.ActionLink("Reject", "Reject", new { orderId = item.Id })
                                     }
 

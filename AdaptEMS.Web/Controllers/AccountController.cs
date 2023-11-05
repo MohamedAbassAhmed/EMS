@@ -13,7 +13,7 @@ namespace AdaptEMS.Web.Controllers
 {
     public class AccountController : WebBaseController
     {
-        public AccountController(ApplicationDBContext db, IConfiguration configurations, IHttpContextAccessor contextAccessor) : base(db, configurations, contextAccessor)
+        public AccountController( IConfiguration configurations, IHttpContextAccessor contextAccessor) : base( configurations, contextAccessor)
         {
         }
 

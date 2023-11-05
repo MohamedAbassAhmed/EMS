@@ -1,5 +1,4 @@
-﻿using AdaptEMS.Entities.DBEntities;
-using AdaptEMS.Entities.SharedEntities;
+﻿using AdaptEMS.Entities.SharedEntities;
 using AdaptEMS.Entities.SharedEntities.LeaveOrder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,7 @@ namespace AdaptEMS.Web.Controllers
 {
     public class LeaveOrdersController : WebBaseController
     {
-        public LeaveOrdersController(ApplicationDBContext db, IConfiguration configurations, IHttpContextAccessor contextAccessor) : base(db, configurations, contextAccessor)
+        public LeaveOrdersController(IConfiguration configurations, IHttpContextAccessor contextAccessor) : base(configurations, contextAccessor)
         {
         }
 
@@ -46,6 +45,11 @@ namespace AdaptEMS.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
         public async Task<IActionResult> Create(CreateLeaveOrderRequest model)
         {
             var response=await CS.CreateLeaveOrder(model);

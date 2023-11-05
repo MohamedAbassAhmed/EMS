@@ -13,16 +13,14 @@ namespace AdaptEMS.Web.Controllers
 {
     public class WebBaseController : Controller
     {
-        protected ApplicationDBContext _db;
         protected IConfiguration _configurations;
         protected IHttpContextAccessor _contextAccessor;
         protected CoreServices CS;
-        public WebBaseController(ApplicationDBContext db,IConfiguration configurations,IHttpContextAccessor contextAccessor)
+        public WebBaseController(IConfiguration configurations,IHttpContextAccessor contextAccessor)
         {
-            _db = db;
             _configurations = configurations;
             _contextAccessor = contextAccessor;
-            CS = new CoreServices(db, configurations, contextAccessor);
+            CS = new CoreServices( configurations, contextAccessor);
         }
         protected void Alert(string message, Consts.AdminNotificationType notificationType)
         {

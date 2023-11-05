@@ -23,7 +23,7 @@ namespace AdaptEMS.Entities.DBEntities
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=EMS;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+            //optionsBuilder.UseSqlServer("Server=.;Database=EMS;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
             base.OnConfiguring(optionsBuilder);
 
         }

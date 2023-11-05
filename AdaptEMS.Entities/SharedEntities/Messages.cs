@@ -17,6 +17,7 @@ namespace AdaptEMS.Entities.SharedEntities
         public const string NotValidLoginAttenmpts = "NotValidLoginAttenmpts";
         public const string NotValidPosition = "NotValidPosition";
         public const string NotValidEmployee = "NotValidEmployee";
+        public const string YouHavePendingRequest = "YouHavePendingRequest";
 
         #endregion
         #region LeaveOrders

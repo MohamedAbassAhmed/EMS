@@ -100,8 +100,8 @@ namespace AdaptEMS.API.Helpers
                 new Claim(Consts.RoleClaimName,stringUserRoles),
             };
             var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:Issuer"],
-                audience: _configuration["JWT:Issuer"],
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Issuer"],
                 claims,
                 expires: DateTime.UtcNow.AddDays(2),
                 signingCredentials: ceredintial);
@@ -254,6 +254,7 @@ namespace AdaptEMS.API.Helpers
                     .Include(o => o.Employee).ThenInclude(o => o.ApplicationUser)
                     .Select(o => new LeaveOrderListModel()
                     {
+                        Id = o.Id,
                         Status = o.Status,
                         EmployeeFullName = o.Employee == null ? "" : o.Employee.ApplicationUser.FullName,
                         EmployeeUserName = o.Employee == null ? "" : o.Employee.ApplicationUser.FullName,
@@ -266,6 +267,7 @@ namespace AdaptEMS.API.Helpers
                 leaveOrders = _db.LeaveOrders.Include(o => o.Employee).ThenInclude(o => o.ApplicationUser)
                     .Select(o => new LeaveOrderListModel()
                     {
+                        Id=o.Id,
                         Status = o.Status,
                         EmployeeFullName = o.Employee == null ? "" : o.Employee.ApplicationUser.FullName,
                         EmployeeUserName = o.Employee == null ? "" : o.Employee.ApplicationUser.FullName,

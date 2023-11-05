@@ -92,6 +92,11 @@ namespace AdaptEMS.API.Helpers
         public bool IsValidEmployeeToOrderLeave(string userId)
         {
             var employee = _db.Employees.FirstOrDefault(e=>e.ApplicationUserId==userId);
+            return employee is not null;
+        }
+        public bool EmployeeDoseNotHavePendingOrder(string userId)
+        {
+            var employee = _db.Employees.FirstOrDefault(e => e.ApplicationUserId == userId);
             var penddingLeaveOrders = _db.LeaveOrders.FirstOrDefault(o => o.EmployeeId == employee.ID && o.Status == Consts.NewLeaveOrder);
             return penddingLeaveOrders is null;
         }

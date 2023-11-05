@@ -1,6 +1,7 @@
 ﻿using AdaptEMS.Entities.DBEntities;
 using AdaptEMS.Entities.SharedEntities;
 using AdaptEMS.Entities.SharedEntities.LeaveOrder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +23,7 @@ namespace AdaptEMS.API.Controllers
             : base(db, configuration, userManager, signInManager,roleManager)
         {
         }
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("CreateLeaveOrder")]
         public IActionResult CreateLeaveOrder([FromBody] CreateLeaveOrderRequest model)
         {
@@ -33,6 +34,12 @@ namespace AdaptEMS.API.Controllers
                 return Ok(new APIBaseResponse()
                 {
                     Message = Messages.NotValidEmployee
+                });
+            } if(!validators.EmployeeDoseNotHavePendingOrder(userId))
+            {
+                return Ok(new APIBaseResponse()
+                {
+                    Message = Messages.YouHavePendingRequest
                 });
             }
             CS.CreateLeaveOrder(model, userId);

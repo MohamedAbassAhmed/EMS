@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Nancy.Security;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,11 @@ namespace AdaptEMS.Web.Helpers
 {
     public class CoreServices
     {
-        ApplicationDBContext _db;
         IConfiguration _configuration;
         IHttpContextAccessor _contextAccessor;
-        public CoreServices(ApplicationDBContext db, IConfiguration configuration, IHttpContextAccessor contextAccessor)
+        public CoreServices(IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
-            _db = db;
+
             _configuration = configuration;
             _contextAccessor = contextAccessor;
         }
@@ -33,10 +33,16 @@ namespace AdaptEMS.Web.Helpers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_configuration["API_URL"]);
+                var user = _contextAccessor.HttpContext.User;
+                if (user is not null && user.IsAuthenticated())
+                {
+                    var token = user.Claims.FirstOrDefault(c => c.Type == Consts.TokenClaimName).Value;
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                }
                 var response = await client.PostAsJsonAsync<T>(url, body);
+
                 if (!response.IsSuccessStatusCode)
                 {
-                    DBLog(Messages.LoginResponse, await response.Content.ReadAsStringAsync());
                     return (false, Messages.ExceptionOccured);
                 }
                 else
@@ -64,7 +70,6 @@ namespace AdaptEMS.Web.Helpers
                 var response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
-                    DBLog(Messages.LoginResponse, await response.Content.ReadAsStringAsync());
                     return (false, (T)Activator.CreateInstance<T>());
                 }
                 else
@@ -93,7 +98,6 @@ namespace AdaptEMS.Web.Helpers
                 var response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
-                    DBLog(Messages.LoginResponse, await response.Content.ReadAsStringAsync());
                     return (false, Messages.ExceptionOccured);
                 }
                 else
@@ -136,7 +140,7 @@ namespace AdaptEMS.Web.Helpers
         }
         public async Task<(bool Result, string Message)> CreateLeaveOrder(CreateLeaveOrderRequest model)
         {
-            var response = await PostAsync<CreateLeaveOrderRequest>("api/LeaveOrders/CreateLeaveOrder", model);
+            var response = await PostAsync<CreateLeaveOrderRequest>("api/LeaveOrder/CreateLeaveOrder", model);
             if (!response.Result)
             {
                 return (false, response.Data);
@@ -239,15 +243,6 @@ namespace AdaptEMS.Web.Helpers
             await _contextAccessor.HttpContext.SignOutAsync();
         }
         #endregion
-        public void DBLog(string action, string description)
-        {
-            _db.EMSLogs.Add(new EMSLog()
-            {
-                Category = Consts.APICallResponseLogCategory,
-                Message = description,
-                Transaction = action
-            });
-            _db.SaveChanges();
-        }
+
     }
 }

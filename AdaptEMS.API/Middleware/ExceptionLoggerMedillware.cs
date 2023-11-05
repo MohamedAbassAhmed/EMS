@@ -23,7 +23,7 @@ namespace AdaptEMS.API.Midellwares
             {
                 _db.EMSLogs.Add(new EMSLog()
                 {
-                    StackTrace = context.Exception.Message,
+                    StackTrace = context.Exception.StackTrace,
                     InnerException = context.Exception.InnerException==null?"": context.Exception.InnerException.Message,
                     Message = context.Exception.Message,
                     Time = DateTime.UtcNow.AddHours(Consts.GMT_To_UAE_Timing),
