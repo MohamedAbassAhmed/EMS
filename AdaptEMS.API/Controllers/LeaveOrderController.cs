@@ -23,7 +23,7 @@ namespace AdaptEMS.API.Controllers
             : base(db, configuration, userManager, signInManager,roleManager)
         {
         }
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         [HttpPost("CreateLeaveOrder")]
         public IActionResult CreateLeaveOrder([FromBody] CreateLeaveOrderRequest model)
         {
@@ -48,6 +48,7 @@ namespace AdaptEMS.API.Controllers
                 Success = true
             });
         }
+        [Authorize]
         [HttpGet("ApproveOrder")]
         public IActionResult ApproveOrder(int orderId)
         {
